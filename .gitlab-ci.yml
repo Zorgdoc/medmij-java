@@ -1,0 +1,7 @@
+test:java:
+  stage: test
+  image: 'maven:3.5.4-jdk-10-slim'
+  script:
+    - mvn package
+    - mvn test
+    - ls -lha
