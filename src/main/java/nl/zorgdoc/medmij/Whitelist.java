@@ -17,8 +17,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import javax.xml.xpath.*;
-import org.w3c.dom.*;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
@@ -28,7 +31,7 @@ import org.xml.sax.SAXException;
 public class Whitelist {
     private static Validator _validator;
 
-    private HashSet<String> _hostnames;
+    private HashSet<String>  _hostnames;
 
     private Validator loadValidator(String resourcename) {
         var f = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -119,14 +122,13 @@ public class Whitelist {
 
         NodeList l;
         try {
-			l = (NodeList)xpath.compile("//w:MedMijNode").evaluate(d, XPathConstants.NODESET);
+            l = (NodeList) xpath.compile("//w:MedMijNode").evaluate(d, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
             throw new Error("Unexpected XPathExpressionException", e);
         }
 
         var hs = new HashSet<String>(l.getLength());
-        for (int i = 0; i < l.getLength(); i++)
-        {
+        for (int i = 0; i < l.getLength(); i++) {
             var node = l.item(i);
             hs.add(node.getTextContent());
         }
