@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--File version: 2-->
+<xs:schema xmlns:zal="xmlns://afsprakenstelsel.medmij.nl/zorgaanbiederslijst/release2/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="xmlns://afsprakenstelsel.medmij.nl/zorgaanbiederslijst/release2/" elementFormDefault="qualified">
+    <!--Root element-->
+    <xs:element name="Zorgaanbiederslijst" type="zal:Zorgaanbiederslijst"></xs:element>
+    <!--SimpleTypes-->
+    <xs:simpleType name="DatumTijdType">
+        <xs:restriction base="xs:dateTime">
+            <xs:pattern value=".{20,}"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="GegevensdienstIdType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PositiefnummerType">
+        <xs:restriction base="xs:positiveInteger"></xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ZorgaanbiedernaamType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="10"></xs:minLength>
+            <xs:maxLength value="57"></xs:maxLength>
+            <xs:pattern value="([a-z])+@medmij"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SysteemrolcodeType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="FrontchanneluriType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="https://(([a-z0-9])([a-z0-9-])*(\.))+([a-z0-9])([a-z0-9-])*([a-z0-9])?(/[^?#/]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BackchanneluriType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="https://(([a-z0-9])([a-z0-9-])*(\.))+([a-z0-9])([a-z0-9-])*([a-z0-9])(:(\d){1,5})?(/[^?#/]+)*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--ComplexTypes-->
+    <xs:complexType name="Zorgaanbiederslijst">
+        <xs:sequence>
+            <xs:element name="Tijdstempel" type="zal:DatumTijdType">
+            </xs:element>
+            <xs:element name="Volgnummer" type="zal:PositiefnummerType">
+            </xs:element>
+            <xs:element name="Zorgaanbieders" type="zal:Zorgaanbieders">
+                <xs:unique name="Unieke-Zorgaanbieder">
+                    <xs:selector xpath="zal:Zorgaanbieder/zal:Zorgaanbiedernaam"/>
+                    <xs:field xpath="."/>
+                </xs:unique>            
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Zorgaanbieders">
+        <xs:sequence>
+            <xs:element name="Zorgaanbieder" maxOccurs="unbounded" minOccurs="0" type="zal:Zorgaanbieder"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Zorgaanbieder">
+        <xs:sequence>
+            <xs:element name="Zorgaanbiedernaam" type="zal:ZorgaanbiedernaamType"></xs:element>
+            <xs:element name="Gegevensdiensten" type="zal:Gegevensdiensten">
+                <xs:unique name="Unieke-ZorgaanbiederGegevensdienst">
+                    <xs:selector xpath="zal:Gegevensdienst/zal:GegevensdienstId"/>
+                    <xs:field xpath="."/>
+                </xs:unique>             
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Gegevensdiensten">
+        <xs:sequence>
+            <xs:element name="Gegevensdienst" maxOccurs="unbounded" type="zal:Gegevensdienst"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Gegevensdienst">
+        <xs:sequence>
+            <xs:element name="GegevensdienstId" type="zal:GegevensdienstIdType"></xs:element>
+            <xs:element name="AuthorizationEndpoint" type="zal:AuthorizationEndpoint"></xs:element>
+            <xs:element name="TokenEndpoint" type="zal:TokenEndpoint"></xs:element>
+            <xs:element name="Systeemrollen" type="zal:Systeemrollen">
+                <xs:unique name="Unieke-ZorgaanbiederGegevensdienstSysteemrol">
+                    <xs:selector xpath="zal:Systeemrol/zal:Systeemrolcode"/>
+                    <xs:field xpath="."/>
+                </xs:unique>             
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AuthorizationEndpoint">
+        <xs:sequence>
+            <xs:element name="AuthorizationEndpointuri" type="zal:FrontchanneluriType"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TokenEndpoint">
+        <xs:sequence>
+            <xs:element name="TokenEndpointuri" type="zal:BackchanneluriType"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ResourceEndpoint">
+        <xs:sequence>
+            <xs:element name="ResourceEndpointuri" type="zal:BackchanneluriType"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Systeemrollen">
+        <xs:sequence>
+            <xs:element name="Systeemrol" maxOccurs="unbounded" type="zal:Systeemrol"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Systeemrol">
+        <xs:sequence>
+            <xs:element name="Systeemrolcode" type="zal:SysteemrolcodeType"></xs:element>
+            <xs:element name="ResourceEndpoint" type="zal:ResourceEndpoint"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -17,8 +17,10 @@ public class WhitelistTest {
     @Test
     public void testWhitelistParseOK() throws SAXException, IOException
     {
-        Whitelist.FromUrl(TestData.WhiltelistExampleXMLURL);
-        Whitelist.FromUrl(TestData.WhiltelistExampleSingleXMLURL);
+    	var data = new String(TestData.WhiltelistExampleXMLURL.openStream().readAllBytes());
+    	Whitelist.fromString(data);
+        Whitelist.fromUrl(TestData.WhiltelistExampleXMLURL);
+        Whitelist.fromUrl(TestData.WhiltelistExampleSingleXMLURL);
     }
 
     @Test
@@ -33,7 +35,7 @@ public class WhitelistTest {
     @Test
     public void testWhitelistContains() throws SAXException, IOException
     {
-        var whitelist = Whitelist.FromUrl(TestData.WhiltelistExampleXMLURL);
+        var whitelist = Whitelist.fromUrl(TestData.WhiltelistExampleXMLURL);
         assertTrue(whitelist.contains("rcf-rso.nl"));
         assertFalse(whitelist.contains("rcf-rso.nl."));
         assertFalse(whitelist.contains("RCF-RSO.NL"));
