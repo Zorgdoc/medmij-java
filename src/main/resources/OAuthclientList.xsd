@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--File version: 2-->
+<xs:schema xmlns:ocl="xmlns://afsprakenstelsel.medmij.nl/oauthclientlist/release2/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="xmlns://afsprakenstelsel.medmij.nl/oauthclientlist/release2/" elementFormDefault="qualified">
+    <!--Root element-->
+    <xs:element name="OAuthclientlist" type="ocl:OAuthclientlist"></xs:element>
+    <!--SimpleTypes-->
+    <xs:simpleType name="DatumTijdType">
+        <xs:restriction base="xs:dateTime">
+            <xs:pattern value=".{20,}"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PositiefnummerType">
+        <xs:restriction base="xs:positiveInteger"></xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="HostnameType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(([a-z0-9])([a-z0-9-])*(\.))+([a-z0-9])([a-z0-9-])*([a-z0-9])"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OrganisatienaamType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"></xs:maxLength>
+            <xs:minLength value="3"></xs:minLength>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--ComplexTypes-->
+    <xs:complexType name="OAuthclientlist">
+        <xs:sequence>
+            <xs:element name="Tijdstempel" type="ocl:DatumTijdType"></xs:element>
+            <xs:element name="Volgnummer" type="ocl:PositiefnummerType"></xs:element>
+            <xs:element name="OAuthclients" type="ocl:OAuthclients">
+                <xs:unique name="Unieke-OAuthclient">
+                    <xs:selector xpath="ocl:OAuthclient/ocl:Hostname"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OAuthclients">
+        <xs:sequence>
+            <xs:element name="OAuthclient" maxOccurs="unbounded" minOccurs="0" type="ocl:OAuthclient"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OAuthclient">
+        <xs:sequence>
+            <xs:element name="Hostname" type="ocl:HostnameType"></xs:element>
+            <xs:element name="OAuthclientOrganisatienaam" type="ocl:OrganisatienaamType"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
