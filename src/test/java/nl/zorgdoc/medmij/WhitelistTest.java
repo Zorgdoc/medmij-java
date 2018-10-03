@@ -15,17 +15,15 @@ import org.xml.sax.SAXException;
 public class WhitelistTest {
 
     @Test
-    public void testWhitelistParseOK() throws SAXException, IOException
-    {
-    	var data = new String(TestData.WhiltelistExampleXMLURL.openStream().readAllBytes());
-    	Whitelist.fromString(data);
+    public void testWhitelistParseOK() throws SAXException, IOException {
+        var data = new String(TestData.WhiltelistExampleXMLURL.openStream().readAllBytes());
+        Whitelist.fromString(data);
         Whitelist.fromUrl(TestData.WhiltelistExampleXMLURL);
         Whitelist.fromUrl(TestData.WhiltelistExampleSingleXMLURL);
     }
 
     @Test
-    public void testWhitelistInvalidXML()
-    {
+    public void testWhitelistInvalidXML() {
         assertThrows(SAXException.class, () -> Whitelist.fromString("<xml/>"));
         assertThrows(SAXException.class, () -> Whitelist.fromString("<xml>"));
         assertThrows(SAXException.class, () -> Whitelist.fromString("geen xml"));
@@ -33,8 +31,7 @@ public class WhitelistTest {
     }
 
     @Test
-    public void testWhitelistContains() throws SAXException, IOException
-    {
+    public void testWhitelistContains() throws SAXException, IOException {
         var whitelist = Whitelist.fromUrl(TestData.WhiltelistExampleXMLURL);
         assertTrue(whitelist.contains("rcf-rso.nl"));
         assertFalse(whitelist.contains("rcf-rso.nl."));

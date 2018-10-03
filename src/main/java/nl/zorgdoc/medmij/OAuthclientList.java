@@ -75,7 +75,7 @@ public class OAuthclientList {
 			}
 			return ocl;
 		} catch (XPathExpressionException e) {
-			throw new RuntimeException("Unexpected XPathExpressionException", e);
+			throw new UnexpectedExceptionError(e);
 		}
 	}
 

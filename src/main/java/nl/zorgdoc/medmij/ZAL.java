@@ -36,11 +36,14 @@ public class ZAL {
 		private Map<String, Gegevensdienst> gegevensdiensten;
 
 		public static class Gegevensdienst {
+			public final String zorgaanbiedernaam;
 			public final String id;
 			public final String authorizationEndpointuri;
 			public final String tokenEndpointuri;
 
-			public Gegevensdienst(String id, String authorizationEndpointuri, String tokenEndpointuri) {
+			public Gegevensdienst(String zorgaanbiedernaam, String id, String authorizationEndpointuri,
+					String tokenEndpointuri) {
+				this.zorgaanbiedernaam = zorgaanbiedernaam;
 				this.id = id;
 				this.authorizationEndpointuri = authorizationEndpointuri;
 				this.tokenEndpointuri = tokenEndpointuri;
@@ -100,7 +103,7 @@ public class ZAL {
 					var authorizationEndpointuri = (String) getAuthorizationEndpointuri.evaluate(gegnode,
 							XPathConstants.STRING);
 					var tokenEndpointuri = (String) getTokenEndpointuri.evaluate(gegnode, XPathConstants.STRING);
-					var gegevensdienst = new Gegevensdienst(gegevensdienstId, authorizationEndpointuri,
+					var gegevensdienst = new Gegevensdienst(naam, gegevensdienstId, authorizationEndpointuri,
 							tokenEndpointuri);
 					gegevensdiensten.put(gegevensdienstId, gegevensdienst);
 				}
@@ -108,7 +111,7 @@ public class ZAL {
 			}
 			return zal;
 		} catch (XPathExpressionException e) {
-			throw new RuntimeException("Unexpected XPathExpressionException", e);
+			throw new UnexpectedExceptionError(e);
 		}
 	}
 

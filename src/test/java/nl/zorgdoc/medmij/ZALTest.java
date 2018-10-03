@@ -11,18 +11,16 @@ import org.xml.sax.SAXException;
 
 public class ZALTest {
     @Test
-    public void testZALParseOK() throws SAXException, IOException
-    {
-    	var data = new String(TestData.ZALExampleXMLURL.openStream().readAllBytes());
+    public void testZALParseOK() throws SAXException, IOException {
+        var data = new String(TestData.ZALExampleXMLURL.openStream().readAllBytes());
 
-    	ZAL.fromString(data);
-    	ZAL.fromUrl(TestData.ZALExampleXMLURL);
+        ZAL.fromString(data);
+        ZAL.fromUrl(TestData.ZALExampleXMLURL);
         ZAL.fromUrl(TestData.ZALExampleSingleXMLURL);
     }
 
     @Test
-    public void testZALInvalidXML()
-    {
+    public void testZALInvalidXML() {
         assertThrows(SAXException.class, () -> ZAL.fromString("<xml/>"));
         assertThrows(SAXException.class, () -> ZAL.fromString("<xml>"));
         assertThrows(SAXException.class, () -> ZAL.fromString("geen xml"));
@@ -30,8 +28,7 @@ public class ZALTest {
     }
 
     @Test
-    public void testZALgetByName() throws SAXException, IOException
-    {
+    public void testZALgetByName() throws SAXException, IOException {
         var zal = ZAL.fromUrl(TestData.ZALExampleXMLURL);
         assertNotNull(zal.getByName("umcharderwijk@medmij"));
         assertNull(zal.getByName(" umcharderwijk@medmij"));
@@ -40,13 +37,12 @@ public class ZALTest {
     }
 
     @Test
-    public void testZALgetById() throws SAXException, IOException
-    {
+    public void testZALgetById() throws SAXException, IOException {
         var zal = ZAL.fromUrl(TestData.ZALExampleXMLURL);
         var za = zal.getByName("umcharderwijk@medmij");
         assertNotNull(za.getGegevensdienstById("4"));
         assertNull(za.getGegevensdienstById("1"));
-		assertNull(za.getGegevensdienstById(" 4"));
+        assertNull(za.getGegevensdienstById(" 4"));
         assertNull(za.getGegevensdienstById(""));
         assertNull(za.getGegevensdienstById(null));
     }

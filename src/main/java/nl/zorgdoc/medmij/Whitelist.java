@@ -58,7 +58,7 @@ public class Whitelist {
 		try {
 			l = (NodeList) xpath.compile("//w:MedMijNode").evaluate(d, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
-			throw new RuntimeException("Unexpected XPathExpressionException", e);
+			throw new UnexpectedExceptionError(e);
 		}
 
 		var hs = new HashSet<String>(l.getLength());
