@@ -19,7 +19,7 @@ public class WhitelistTest {
         var data = new String(TestData.WhiltelistExampleXMLURL.openStream().readAllBytes());
         Whitelist.fromString(data);
         Whitelist.fromUrl(TestData.WhiltelistExampleXMLURL);
-        Whitelist.fromUrl(TestData.WhiltelistExampleSingleXMLURL);
+       // Whitelist.fromUrl(TestData.WhiltelistExampleSingleXMLURL);
     }
 
     @Test

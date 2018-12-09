@@ -56,7 +56,7 @@ public class Whitelist {
 
 		NodeList l;
 		try {
-			l = (NodeList) xpath.compile("//w:MedMijNode").evaluate(d, XPathConstants.NODESET);
+			l = (NodeList) xpath.compile(".//w:Hostname/text()").evaluate(d, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			throw new UnexpectedExceptionError(e);
 		}
