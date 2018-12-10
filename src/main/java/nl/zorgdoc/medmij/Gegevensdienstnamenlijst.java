@@ -91,4 +91,8 @@ public class Gegevensdienstnamenlijst {
 	public Gegevensdienst getByName(String name) {
 		return gegevensdiensten.get(name);
 	}
+	
+	public Gegevensdienst getGegevensdienstById(String id) {
+		return gegevensdiensten.get(id);
+	}
 }
