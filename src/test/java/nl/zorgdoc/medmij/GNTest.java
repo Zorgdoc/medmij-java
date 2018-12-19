@@ -16,7 +16,7 @@ public class GNTest {
 
         Gegevensdienstnamenlijst.fromString(data);
         Gegevensdienstnamenlijst.fromUrl(TestData.GNExampleXMLURL);
-        Gegevensdienstnamenlijst.fromUrl(TestData.GNExampleSingleXMLURL);
+     
     }
 
     @Test
@@ -29,21 +29,11 @@ public class GNTest {
 
     @Test
     public void testGNgetByName() throws SAXException, IOException {
-        var gn = GNExampleXMLURL.fromUrl(TestData.GNExampleXMLURL);
-        assertNotNull(gn.getByName("umcharderwijk@medmij"));
-        assertNull(gn.getByName(" umcharderwijk@medmij"));
-        assertNull(gn.getByName("UMCharderwijk@medmij"));
+        var gn = Gegevensdienstnamenlijst.fromUrl(TestData.GNExampleXMLURL);
+        assertNotNull(gn.getByName("Medicatiegegevens"));
+        assertNull(gn.getByName(" Medicatiegegevens"));
+        assertNull(gn.getByName("MEDicatiegegevens"));
         assertNull(gn.getByName(null));
     }
 
-    @Test
-    public void testGNgetById() throws SAXException, IOException {
-    	var gn = GNExampleXMLURL.fromUrl(TestData.GNExampleXMLURL);
-        var gni = gn.getByName("umcharderwijk@medmij");
-        assertNotNull(gni.getGegevensdienstById("4"));
-        assertNull(gni.getGegevensdienstById("1"));
-        assertNull(gni.getGegevensdienstById(" 4"));
-        assertNull(gni.getGegevensdienstById(""));
-        assertNull(gni.getGegevensdienstById(null));
-    }
 }

@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import nl.zorgdoc.medmij.ZAL.Zorgaanbieder.Gegevensdienst;
+import nl.zorgdoc.medmij.Gegevensdienstnamenlijst.Gegevensdienst;
 
 /**
  * ZAL
@@ -33,12 +33,11 @@ public class Gegevensdienstnamenlijst {
 	}
 
 	public static class Gegevensdienst {
-		public final String zorgaanbiedernaam;
+		public final String naam;
 		public final String id;
 
-		public Gegevensdienst(String zorgaanbiedernaam, String id, String authorizationEndpointuri,
-				String tokenEndpointuri) {
-			this.zorgaanbiedernaam = zorgaanbiedernaam;
+		public Gegevensdienst(String zorgaanbiedernaam, String id) {
+			this.naam = zorgaanbiedernaam;
 			this.id = id;
 		}
 	}
@@ -61,7 +60,7 @@ public class Gegevensdienstnamenlijst {
 	}
 
 	private static Map<String, Gegevensdienst> parse(Document d) {
-		var ctx = new SimpleNamespaceContext("w", "xmlns://afsprakenstelsel.medmij.nl/zorgaanbiederslijst/release2/");
+		var ctx = new SimpleNamespaceContext("w", "xmlns://afsprakenstelsel.medmij.nl/gegevensdienstnamenlijst/release1/");
 		var xpath = XPathFactory.newInstance().newXPath();
 		xpath.setNamespaceContext(ctx);
 
@@ -70,17 +69,15 @@ public class Gegevensdienstnamenlijst {
 			XPathExpression getGegevensdiensten = xpath.compile(".//w:Gegevensdienst");
 			XPathExpression getGegevensdienstId = xpath.compile("w:GegevensdienstId/text()");
 			XPathExpression getGegevensdienstName = xpath.compile("w:Weergavenaam/text()");
-
 			var l = (NodeList) getGegevensdiensten.evaluate(d, XPathConstants.NODESET);
 
-			var zal = new HashMap<String, Gegevensdienst>(l.getLength());
+			var gegevensdiensten = new HashMap<String, Gegevensdienst>(l.getLength());
 			for (int i = 0; i < l.getLength(); i++) {
 				var node = l.item(i);
-				var naam = (String) getNaam.evaluate(node, XPathConstants.STRING);
-
-				var gegevensdienstId = (String) getGegevensdienstName.evaluate(node, XPathConstants.STRING);
+				var naam = (String) getGegevensdienstName.evaluate(node, XPathConstants.STRING);
+				var gegevensdienstId = (String) getGegevensdienstId.evaluate(node, XPathConstants.STRING);
 				var gegevensdienst = new Gegevensdienst(naam, gegevensdienstId);
-				gegevensdiensten.put(gegevensdienstId, gegevensdienst);
+				gegevensdiensten.put(naam, gegevensdienst);
 			}
 			return gegevensdiensten;
 		} catch (XPathExpressionException e) {
@@ -92,7 +89,4 @@ public class Gegevensdienstnamenlijst {
 		return gegevensdiensten.get(name);
 	}
 	
-	public Gegevensdienst getGegevensdienstById(String id) {
-		return gegevensdiensten.get(id);
-	}
 }

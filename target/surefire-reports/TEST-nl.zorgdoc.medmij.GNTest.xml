@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="nl.zorgdoc.medmij.OAuthClientListTest" time="0.535" errors="0" skipped="0">
+<testsuite tests="3" failures="0" name="nl.zorgdoc.medmij.GNTest" time="0.409" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="11.0.1+13-LTS"/>
@@ -14,7 +14,7 @@
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="user.country" value="NL"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="test" value="nl.zorgdoc.medmij.OAuthClientListTest"/>
+    <property name="test" value="nl.zorgdoc.medmij.GNTest"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="user.dir" value="/Users/relitodea/git/OpenPGO-Medmij-ImplementatieBouwstenen-Java"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
@@ -46,7 +46,7 @@
     <property name="java.class.path" value="/usr/local/Cellar/maven/3.6.0/libexec/boot/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="11"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=nl.zorgdoc.medmij.OAuthClientListTest test"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=nl.zorgdoc.medmij.GNTest test"/>
     <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -65,5 +65,7 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="nl.zorgdoc.medmij.OAuthClientListTest" name="nl.zorgdoc.medmij.OAuthClientListTest.testOAuthClientListParseOK" time="0.535"/>
+  <testcase classname="nl.zorgdoc.medmij.GNTest" name="nl.zorgdoc.medmij.GNTest.testGNParseOK" time="0.368"/>
+  <testcase classname="nl.zorgdoc.medmij.GNTest" name="nl.zorgdoc.medmij.GNTest.testGNInvalidXML" time="0.029"/>
+  <testcase classname="nl.zorgdoc.medmij.GNTest" name="nl.zorgdoc.medmij.GNTest.testGNgetByName" time="0.012"/>
 </testsuite>
